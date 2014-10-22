@@ -1,7 +1,7 @@
 EDT-Mecuncu
 ===========
 
-Calendario Semanal
+Calendario Semanal (Hay unos screenshots en la carpeta con ese nombre)
 
 Descripción
 =================
