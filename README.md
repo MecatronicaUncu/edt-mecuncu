@@ -77,7 +77,7 @@ A la función _timeplot_ se le pasa el [JSON](http://json.org/) de horarios más
 
 De esta manera los colores responden a esos tipos de actividad, que hay que respetar en el [JSON](http://json.org/) de horarios (pero definidos por uno mismo!).
 La franja horaria también es personalizable cambiando esos valores de _limits_. Todavía no hay mucho checkeo de errores por el tema de superposición (Agregar fila?) 
-o de que un horario es superior o inferios a los límites.
+o de que un horario es superior o inferior a los límites.
 
 Detalles
 ===========
