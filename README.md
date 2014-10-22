@@ -34,7 +34,7 @@ Instalación (de desarrollo)
 Uso
 =================
 
-Por el momento los datos están incluidos como variables en el elemento de Polymer](https://www.polymer-project.org/).
+Por el momento los datos están incluidos como variables en el elemento de [Polymer](https://www.polymer-project.org/).
 La estructura de los datos es la siguiente:
 
 ```javascript
