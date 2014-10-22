@@ -13,6 +13,22 @@ _independiente_. Esto quiere decir, poder instalarlo en un sitio web sin mayores
 La parte de front-end está "bastante" desarrollada (las comillas porque podríamos cambiarla en cualquier momento, pero como para
 probar la parte back-end está bien creo).
 
+Instalación (de desarrollo)
+================
+
+ - Instalar [NodeJS](nodejs.org/)
+ - Instalar [Ruby](https://www.ruby-lang.org/es/downloads/)
+ - En la terminal:
+  - ```gem install sass```
+  - ```gem install compass```
+ - Agregar [Sass](sass-lang.com/) y [Compass](compass-style.org/) al PATH
+ - En la terminal:
+  - ```npm install -g yo```
+  - ```git clone https://github.com/MecatronicaUncu/EDT-Mecuncu.git```
+  - ```npm install```
+  - ```bower install```
+  - ```grunt rm app/styles/edt-mecuncu.css && grunt serve --allow-remote```
+		
 Uso
 =================
 
