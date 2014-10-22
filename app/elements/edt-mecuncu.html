@@ -91,12 +91,7 @@
 	<script>
 		$(window).on('resize', function() {
 			clearplot();
-			if($('#edt').find('.edt-times-h').length != 0){
-				if($('#edt').find('.edt-times-h').css('display') == 'none'){
-				} else {
-					replot();
-				}
-			}
+			replot();
 		});
 	
 		window.addEventListener('polymer-ready', function(e) {
