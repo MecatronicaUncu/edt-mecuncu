@@ -18,11 +18,11 @@ Instalación (de desarrollo)
 
  - Instalar [NodeJS](nodejs.org/)
  - Instalar [Ruby](https://www.ruby-lang.org/es/downloads/)
- - En la terminal:
+ - En la terminal (sudo ?):
   - ```gem install sass```
   - ```gem install compass```
  - Agregar [Sass](sass-lang.com/) y [Compass](compass-style.org/) al PATH
- - En la terminal:
+ - En la terminal (sudo ?):
   - ```npm install -g yo```
   - ```git clone https://github.com/MecatronicaUncu/EDT-Mecuncu.git```
   - ```npm install```
