@@ -27,6 +27,8 @@ Instalación (de desarrollo)
   - ```git clone https://github.com/MecatronicaUncu/EDT-Mecuncu.git```
   - ```npm install```
   - ```bower install```
+  - ```grunt serve --allow-remote```
+ - Si tieen problemas de visualización de CSS:
   - ```grunt rm app/styles/edt-mecuncu.css && grunt serve --allow-remote```
 		
 Uso
