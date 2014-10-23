@@ -22,11 +22,12 @@ Instalación (de desarrollo)
   - ```gem install compass``` o en arch ```yaourt -S ruby-compass```
  - Agregar [Sass](sass-lang.com/) y [Compass](compass-style.org/) al PATH (en arch por defecto)
  - En la terminal:
-  - ```bower install https://github.com/MecatronicaUncu/EDT-Mecuncu.git```
-  - ```cd bower_components```
-  - ```python -m SimpleHTTPServer```
- - Entran en la pagina 0.0.0.0:8000/edt-mecuncu/
- 
+  - ```git clone https://github.com/MecatronicaUncu/edt-mecuncu.git```
+  - ```cd edt-mecuncu```
+  - ```bower install```
+  - ```cd ../ && python -m SimpleHTTPServer```
+ - Entran en la pagina [web](0.0.0.0:8000/edt-mecuncu/)
+
 Modificaciones a los archivos de Sass (/sass/)
 ================
 
