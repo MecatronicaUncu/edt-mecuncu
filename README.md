@@ -23,12 +23,15 @@ Instalación (de desarrollo)
  - Agregar [Sass](sass-lang.com/) y [Compass](compass-style.org/) al PATH (en arch por defecto)
  - En la terminal:
   - ```bower install https://github.com/MecatronicaUncu/EDT-Mecuncu.git```
-  - ```bower install```
-  - ```compass compile .``` (Si hacen cambios en los archivos de sass ubicados en /sass/)
-  - ```cd ../```
+  - ```cd bower_components```
   - ```python -m SimpleHTTPServer```
  - Entran en la pagina 0.0.0.0:8000/edt-mecuncu/
  
+Modificaciones a los archivos de Sass (/sass/)
+================
+
+ - ```compass compile .```
+
 Instalación (de distribución)
 =================
 
