@@ -1,0 +1,32 @@
+{
+  "name": "edt-mecuncu",
+  "version": "0.1.0",
+  "authors": [
+    "Andres Manelli <andresmanelli@gmail.com>"
+  ],
+  "description": "Day Use Calendar",
+  "keywords": [
+    "calendar",
+    "edt"
+  ],
+  "main": "edt-mecuncu.html",
+  "homepage": "https://github.com/MecatronicaUncu/EDT-Mecuncu",
+  "ignore": [
+    "/.*",
+    "/tests/",
+    "/sass/",
+    "config.rb"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^0.4.2",
+    "core-tooltip": "Polymer/core-tooltip#~0.4.2",
+    "jQuery": "~2.1.1",
+    "tinycolor": "~1.0.0",
+    "core-icons": "Polymer/core-icons#~0.4.2",
+    "core-collapse": "Polymer/core-collapse#~0.4.2",
+    "paper-shadow": "Polymer/paper-shadow#~0.4.2"
+  },
+  "devDependencies": {
+    "web-component-tester": "Polymer/web-component-tester#^0.7.3"
+  }
+}
