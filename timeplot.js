@@ -25,33 +25,36 @@ function getOffset( el ) {
  */
 var blockHTML = function(timejson,ti,tt,h,w,ttip){
 	
-	var pos;
+	var pos,htip;
 	
 	if(suffix=='H'){
 		pos = 'right';
+		htip = h - 10;
 	} else {
 		pos = 'bottom';
+		htip = 50;
 	}
 	if((timejson.ti-ti) > (tt/2) ){
 		if(suffix=='H'){
 			pos = 'left';
+			htip = h - 10;
 		} else {
 			pos = 'top';
+			htip = 50;
 		}
 	}
-	h = Math.ceil(h);
-	var h1 = h*0.2;
-	var h2 = h*0.4;
 	w = Math.ceil(w);	
-	var info = ['<div style="height: '+h1+'px">'+timejson.type.substr(0,15)+'</div>',
-				'<div style="height: '+h2+'px">'+timejson.sti+' - '+timejson.stf+'</div>',
-				'<div style="height: '+h1+'px">'+timejson.person.split(' ')[0].substr(0,1)+'. '+timejson.person.split(' ')[1]+'</div>',
-				'<div>'+timejson.place.substr(0,15)+'</div>'].join('\n');
+	var info = ['<div style="padding-left: 3px; height: 100%">',
+				'<div style="height: 20%">'+timejson.type.substr(0,15)+'</div>',
+				'<div style="height: 40%">'+timejson.sti+' - '+timejson.stf+'</div>',
+				'<div style="height: 20%">'+timejson.person.split(' ')[0].substr(0,1)+'. '+timejson.person.split(' ')[1]+'</div>',
+				'<div style="height: 20%">'+timejson.place+'</div>',
+				'</div>'].join('\n');
 				
 	if(ttip){
 		return [	'<core-tooltip show="false"; position="'+pos+'">',
 					'<div style="height: '+h+'px; width: '+w+'px;"><core-icon icon="list"></core-icon></div>',
-					'<div tip>'+info+'</div>',
+					'<div tip style="height: '+htip+'px">'+info+'</div>',
 					'</core-tooltip>'].join('\n');
 	} else {
 		return info;
@@ -93,8 +96,8 @@ var timeplot = function(alltimes, config){
 	if($('#edt').find('.edt-times-h').length != 0){
 		if($('#edt').find('.edt-times-h').css('display') == 'none'){
 			suffix = 'V';
-			divwidth = $('#edt').find('.edt-head-wrap').width();
-			divheight = $('#edt').find('.chartContainerV').height();
+			divwidth = $('#edt').find('.edt-days').width();
+			divheight = $('#edt').find('.chartContainerV').height();// - $('#edt').find('.edt-days > span').height();
 		} else {
 			suffix = 'H';
 			divwidth = $('#edt').find('.chartContainer').width();
@@ -136,10 +139,9 @@ var timeplot = function(alltimes, config){
 				$('#'+divs[i].id).css('left', x);
 				$('#'+divs[i].id).css('top', $('#'+id).offset().top);
 				$('#'+divs[i].id).css('width', w);
-				$('#'+divs[i].id).css('height',divheight-2);
-				$('#'+divs[i].id).css('border', '1px solid '+tinycolor(config.types[el.type].color).darken(50).toString());
+				$('#'+divs[i].id).css('height',divheight);
+				//$('#'+divs[i].id).css('border', '1px solid '+tinycolor(config.types[el.type].color).darken(50).toString());
 				$('#'+divs[i].id).css('background-color', config.types[el.type].color);
-				$('#'+divs[i].id).css('padding-left', '3px');
 				if(w >= 85){
 					$('#'+divs[i].id).append(blockHTML(el,start,tt,divheight,w,false));
 					divs[i].className += ' edt-block-info';
@@ -152,20 +154,22 @@ var timeplot = function(alltimes, config){
 			});
 		} else {
 			console.log('VERTICAL');
+			var top = 0;
+			var hcum = 0;
 			times.forEach(function(el,index){
 				var y = ((el.ti-start)/tt)*divheight;
 				var h = ((el.tf - el.ti)/tt)*divheight;
+				top = y-hcum;
 				console.log('y '+y+' h '+h);
 				divs[i] = document.createElement('div');
 				document.getElementById(id).appendChild(divs[i]);
 				divs[i].id = 'ttip-'+id+i;
-				$('#'+divs[i].id).css('position','absolute');
-				$('#'+divs[i].id).css('top', y);
-				$('#'+divs[i].id).css('width', divwidth-6);
-				$('#'+divs[i].id).css('height',h);
+				$('#'+divs[i].id).css('position','relative');
+				$('#'+divs[i].id).css('top', top+'px');
+				$('#'+divs[i].id).css('width', '100%');
+				$('#'+divs[i].id).css('height',h+'px');
 				$('#'+divs[i].id).css('border', '1px solid '+tinycolor(config.types[el.type].color).darken(50).toString());
 				$('#'+divs[i].id).css('background-color', config.types[el.type].color);
-				$('#'+divs[i].id).css('padding-left', '3px');
 				if(h >= 70){
 					$('#'+divs[i].id).append(blockHTML(el,start,tt,h,divwidth,false));
 					divs[i].className += ' edt-block-info';
@@ -174,6 +178,7 @@ var timeplot = function(alltimes, config){
 				}	
 				$('#'+divs[i].id).click(divs[i].id,togglettip);
 				i++;
+				hcum+=h;
 				//TODO: new row if superposition found
 			});
 		}

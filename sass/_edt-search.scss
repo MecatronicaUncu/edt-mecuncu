@@ -1,0 +1,40 @@
+@import "edt-base";
+
+:host /deep/ #searchBar {
+	width: 100%;
+	background-color: $edtSearchBarBgColor;
+	height: $edtSearchBarHeight+px;
+}
+
+:host /deep/ #searchBar /deep/ core-dropdown-menu::shadow #control {
+	margin: 0;
+    background-color: $edtSearchBarBgColor;
+    height: ($edtSearchBarHeight - 10)+px;
+}
+
+:host /deep/ #searchBar /deep/ core-dropdown-menu::shadow #dropdown {
+    background-color: tint($edtLightColor,50);
+    border: 1px solid $edtDarkColor;
+    @include text-shadow(rgba(black, 0.4) 1px 1px 0);
+}
+
+:host /deep/ #searchBar /deep/ core-dropdown-menu /deep/ core-item::shadow #icon {
+	color: black;
+	@include opacity(0.65);
+}
+
+:host /deep/ #searchBar paper-button {
+	margin: 0;
+	padding: 0;
+	min-width: 0;
+}
+
+:host /deep/ #searchBar core-item {
+	@include edt-search-bar-font;
+}
+
+:host /deep/ #which::shadow #label,
+:host /deep/ #which::shadow #icon, {
+	@include user-select(none);
+	color: shade(white,20);
+}

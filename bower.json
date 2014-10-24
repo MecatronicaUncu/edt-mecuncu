@@ -24,7 +24,11 @@
     "tinycolor": "~1.0.0",
     "core-icons": "Polymer/core-icons#~0.4.2",
     "core-collapse": "Polymer/core-collapse#~0.4.2",
-    "paper-shadow": "Polymer/paper-shadow#~0.4.2"
+    "paper-shadow": "Polymer/paper-shadow#~0.4.2",
+    "core-dropdown-menu": "Polymer/core-dropdown-menu#~0.4.2",
+    "paper-button": "Polymer/paper-button#~0.4.2",
+    "paper-fab": "Polymer/paper-fab#~0.4.2",
+    "core-toolbar": "Polymer/core-toolbar#~0.4.2"
   },
   "devDependencies": {
     "web-component-tester": "Polymer/web-component-tester#^0.7.3"

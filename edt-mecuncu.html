@@ -3,110 +3,95 @@
 <link rel="import" href="../core-icons/core-icons.html">
 <link rel="import" href="../core-collapse/core-collapse.html">
 <link rel="import" href="../paper-shadow/paper-shadow.html">
+<link rel="import" href="../core-toolbar/core-toolbar.html">
+<link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../core-icons/social-icons.html">
+<link rel="import" href="../core-dropdown-menu/core-dropdown-menu.html">
 
 <link rel="import" href="scripts.html">
 
-<link rel="stylesheet" href="edt-mecuncu.css">
-
 <script src="timeplot.js"></script>
 
-<polymer-element name="edt-mecuncu">
+<polymer-element name="edt-mecuncu" attributes="days types typeSelected subtypes subtypeSelected">
 	<template>
+	
+	<link rel="stylesheet" href="edt-mecuncu.css">
+	
 	<div id="edt">
 		<div horizontal layout center>
 				<div><img class="edt-logo" src="images/mecuncu.png" alt="Logo Asociacion"/></div>
 				<div class="edt-caption" flex>EDT - MecUncu</div>
 		</div>
-		<table>
+		<div>
 			<paper-shadow id="edt_shadow" z="2"></paper-shadow>
-			<thead class="edt-head">
-				<th class="edt-head-wrap">Día</td>
-				<th class="edt-head-time-h" id="Hora">Hora</td>
-			</thead>
-			<tbody>
-				<tr>
-					<td id="Lunes_" class="edt-days" on-click="{{toggle}}">Lunes
-					</td>
-					<td class="edt-times-h">
-						<div class="chartContainer" id="LunesH"></div>
-					</td>
-				</tr>
-				<tr>
-					<td id="Lunes_V" class="edt-times-v hide">
-						<core-collapse id="collapse">
-							<div class="chartContainerV" id="LunesV"></div>
-						</core-collapse>
-					</td>
-				</tr>
-				<tr>
-					<td id="Martes_" class="edt-days" on-click="{{showTimesV}}">Martes</td>
-					<td class="edt-times-h">
-						<div class="chartContainer" id="MartesH"></div>
-					</td>
-				</tr>
-				<tr>
-					<td id="Martes_V" class="edt-times-v hide">
-						<div class="chartContainerV" id="MartesV"></div>
-					</td>
-				</tr>
-				<tr>
-					<td id="Miercoles_" class="edt-days" on-click="{{showTimesV}}">Miercoles</td>
-					<td class="edt-times-h">
-						<div class="chartContainer" id="MiercolesH"></div>
-					</td>
-				</tr>
-				<tr>
-					<td id="Miercoles_V" class="edt-times-v hide">
-						<div class="chartContainerV" id="MiercolesV"></div>
-					</td>
-				</tr>
-				<tr>
-					<td id="Jueves_" class="edt-days" on-click="{{showTimesV}}">Jueves</td>
-					<td class="edt-times-h">
-						<div class="chartContainer" id="JuevesH"></div>	
-					</td>
-				</tr>
-				<tr>
-					<td id="Jueves_V" class="edt-times-v hide">
-						<div class="chartContainerV" id="JuevesV"></div>
-					</td>
-				</tr>
-				<tr>
-					<td id="Viernes_" class="edt-days" on-click="{{showTimesV}}">Viernes</td>
-					<td class="edt-times-h">
-						<div class="chartContainer" id="ViernesH"></div>
-					</td>
-				</tr>
-				<tr>
-					<td id="Viernes_V" class="edt-times-v hide">
-						<div class="chartContainerV" id="ViernesV"></div>
-					</td>
-				</tr>
-				<tr>
-					<td id="Sabado_" class="edt-days" on-click="{{showTimesV}}">Sábado</td>
-					<td class="edt-times-h">
-						<div class="chartContainer" id="SabadoH"></div>
-					</td>
-				</tr>
-				<tr>
-					<td id="Sabado_V" class="edt-times-v hide">
-						<div class="chartContainerV" id="SabadoV"></div>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+			<core-toolbar id="searchBar" layout horizontal center center-justified>
+				<core-dropdown-menu id="selectType" label="Elija tipo" on-core-activate="{{typeClicked}}">
+					<template repeat="{{types}}">
+						<core-item icon="{{icon}}" label="{{type}}">
+					</template>
+				</core-dropdown-menu>
+				<core-dropdown-menu id="selectWhich" label="Elija {{typeSelected.label}}" on-core-activate="{{subTypeClicked}}" hidden>
+					<template repeat="{{subtypes}}">
+						<core-item label="{{}}">
+					</template>
+				</core-dropdown-menu>
+				<core-item id="which" icon="{{typeSelected.icon}}" label="{{subTypeSelected.label}}" hidden></core-item>
+				<paper-button id="clearSearchBtn" on-click="{{clearSearch}}" hidden>
+					<core-icon icon="clear"></core-icon>
+				</paper-button>
+			</core-toolbar>
+			<table id="tabla">
+				<thead class="edt-head">
+					<th class="edt-head-wrap">Día</td>
+					<th class="edt-head-time-h" id="Hora">Hora</td>
+				</thead>			
+				<tbody>
+					<template repeat="{{ days }}">
+						<tr>
+							<td class="edt-days"><span id="{{}}" on-click="{{showTimesV}}">{{}}</span>
+							<core-collapse id="{{}}Collapse">
+								<div class="chartContainerV" id="{{}}V"></div>
+							</core-collapse></td>
+							<td class="edt-times-h">
+								<div class="chartContainer" id="{{}}H"></div>
+							</td>
+						</tr>
+					</template>
+				</tbody>
+				
+			</table>
+		</div>
 		<div><p class="edt-footer">Asociación de Mecatrónica de Mendoza</p></div>
 	</div>
 	</template>
 	<script>
-		$(window).on('resize', function() {
-			clearplot();
-			replot();
-		});
 	
 		window.addEventListener('polymer-ready', function(e) {
-					
-			var config = {	types:	{
+				document.getElementsByTagName('edt-mecuncu')[0].plot();		
+		});
+		
+		Polymer({
+			ready: function(){
+				$(window).on('resize', function() {					
+					clearplot();
+					replot();
+				});
+				
+				this.days = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes'];
+				
+				this.subtypes = ['Anibal Mirasso','Susana Bernasconi','Alfredo Puglesi'];
+				
+				this.types = [	{	type:'Profesor',
+									icon:'social:school'
+								},
+								{	type:'Estudiante',
+									icon:'social:person'
+								},
+								{	type:'Materia',
+									icon:'icons:folder'
+								}];
+								
+				this.config = {	types:	{
 								Clase: {
 									color:'#B1C3F9'
 								},
@@ -127,9 +112,9 @@
 								start:'08h00',
 								end:'22h00'
 							}
-						 }
+						 };
 						
-			var timesM = [	{	ti:'14h30',
+			this.timesM = [	{	ti:'14h30',
 								tf:'16h48',
 								place:'Aula 10',
 								person:'Alvaro Alonso',
@@ -148,7 +133,7 @@
 								type:'Plenaria'
 							},
 							{	ti:'18h30',
-								tf:'20h29',
+								tf:'21h50',
 								place:'Asociación de Mecatrónica',
 								person:'Fernando Cladera',
 								type:'Curso'
@@ -160,7 +145,7 @@
 								type:'Examen'
 							}];
 							
-			var timesT = [	{	ti:'12h30',
+			this.timesT = [	{	ti:'12h30',
 								tf:'13h48',
 								place:'Aula 6',
 								person:'Andrés Manelli',
@@ -172,56 +157,48 @@
 								person:'Aníbal Mirasso',
 								type:'Clase'
 							},
-							{	ti:'19h00',
-								tf:'20h00',
+							{	ti:'15h00',
+								tf:'16h30',
 								place:'Asociación de Mecatrónica',
 								person:'Fernando Cladera',
 								type:'Curso'
 							},
-							{	ti:'15h00',
-								tf:'16h30',
+							{	ti:'19h00',
+								tf:'20h00',
 								place:'Anfiteatro Este',
 								person:'Susana Bernasconi',
 								type:'Plenaria'
 							}];
 			
-			var times =  [	{	day:'Martes',
-								times:timesT
+			this.times =  [	{	day:'Martes',
+								times:this.timesT
 							},
 							{	day:'Lunes',
-								times:timesM
+								times:this.timesM
 							}];
-								
-			timeplot(times,config);
-		});
-		
-		Polymer({
-			ready: function(){
-				console.log(this.$.edt_shadow.target = this.$.edt.querySelector('table'));//.target = this.$.c.querySelector('#edt');
 			},	
 			showTimesV: function(event, detail, sender) {
-				element=this.$.edt.querySelector('#'+sender.id+'V');
-				console.log('day clicked');
-				if(! element){
-					console.log('element not found');
-				}
-				else {
-					if( $('#'+sender.id+'V').hasClass('hide') ){
-						$('#edt').find('.edt-times-v').each(function(index){
-							$(this).removeClass('hide');
-							$(this).addClass('hide');
-						});
-						$('#'+sender.id+'V').removeClass('hide');					
-						clearplot();
-						replot();
-					} else {
-						$('#'+sender.id+'V').addClass('hide');
-					}
-				}
+				this.$.edt.querySelector('#'+sender.id+'Collapse').toggle();
 			},
-			toggle: function(event, detail, sender) {
-				this.showTimesV(event, detail, sender);
-				this.$.collapse.toggle();
+			plot: function(){
+				timeplot(this.times,this.config);
+			},
+			typeClicked: function(event, detail, sender){
+				this.typeSelected=detail.item;
+				$(this.$.selectType).prop('hidden',true);
+				$(this.$.selectWhich).prop('hidden',false);
+				$(this.$.clearSearchBtn).prop('hidden',false);
+			},
+			clearSearch: function(event, detail, sender){
+				$(this.$.selectType).prop('hidden',false);
+				$(this.$.which).prop('hidden',true);
+				$(this.$.selectWhich).prop('hidden',true);
+				$(this.$.clearSearchBtn).prop('hidden',true);
+			},
+			subTypeClicked: function(event, detail, sender){
+				this.subTypeSelected=detail.item;
+				$(this.$.which).prop('hidden',false);
+				$(this.$.selectWhich).prop('hidden',true);
 			}
 		});
 	</script>

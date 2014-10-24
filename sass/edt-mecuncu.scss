@@ -1,41 +1,46 @@
 @import "edt-base";
+@import "edt-search";
 
-edt-mecuncu table {
+body {
+	@include respond-to(mobile){margin: 0px};
+}
+
+:host table {
 	border-collapse: collapse;	
 	table-layout: fixed;
 	width: 100%;
 }
 
-edt-mecuncu #edt {
-	@include respond-to(mobile){width: 200px};
+:host #edt {
+	@include respond-to(mobile){width: 100%};
 	@include respond-to(big-mobile){width: 450px};
 	@include respond-to(tablets){width: 700px};
 	@include respond-to(wide){width: 900px};
 }
 
-edt-mecuncu * .edt-head * {
+:host /deep/ .edt-head {
 	@include edt-head-font;
 	text-align: center;
 	background-color: $edtHeadBgColor;
 }
 
-edt-mecuncu * .edt-head-wrap {
+:host /deep/ .edt-head-wrap {
 	width: 90px;
-	@include respond-to(mobile){width: 200px};
+	@include respond-to(mobile){width: 100%};
 }
 
-edt-mecuncu * .edt-head-time-h {
+:host /deep/ .edt-head-time-h {
 	display: table-cell;
 	@include respond-to(mobile){display: none};
 }
 
-edt-mecuncu * .edt-caption {
+:host /deep/ .edt-caption {
 	@include edt-caption-font;
 	text-align: center;
 	padding: 5px;
 }
 
-edt-mecuncu * .edt-logo {
+:host /deep/ .edt-logo {
 	max-width: 80px;
 	vertical-align: middle;
 	display: block;
@@ -43,7 +48,7 @@ edt-mecuncu * .edt-logo {
 	@include respond-to(mobile){display: none};
 }
 
-edt-mecuncu * .edt-footer {
+:host /deep/ .edt-footer {
 	@include edt-footer-font;
 	border-bottom: 2px solid $edtDarkColor;
 	padding-top: 5px;
@@ -51,21 +56,22 @@ edt-mecuncu * .edt-footer {
 	text-align: right;
 }
 
-edt-mecuncu * .edt-days {
+:host /deep/ .edt-days {
 	@include edt-days-font;
+	padding: 0;
 	vertical-align: middle;
 	text-align: center;
 	background-color: $edtDaysBgColor;
 }
 
-edt-mecuncu * .edt-times-h {
+:host /deep/ .edt-times-h {
 	background-color: $edtTimesBgColor;	
 	display: table-cell;
 	border-bottom: 1px solid shade($edtTimesBgColor, 20);
 	@include respond-to(mobile){display: none};
 }
 
-edt-mecuncu * .chartContainer {
+:host /deep/ .chartContainer {
 	width: 100%;
 	height: $edtChartHeightH+px;
 	padding: 0;
@@ -73,31 +79,31 @@ edt-mecuncu * .chartContainer {
 	position: relative;
 }
 
-edt-mecuncu * .chartContainerV {
+:host /deep/ .chartContainer /deep/ core-icon {
+	@include opacity(0.7);
+}
+
+:host /deep/ .chartContainerV {
+	background-color: $edtTimesBgColor;
+	display: none;
+	text-align: left;
 	width: 100%;
+	@include respond-to(mobile){display: table-cell};
 	height: $edtChartHeightV+px;
 	overflow: hidden;
 	position: relative;
 }
 
-edt-mecuncu * .chart {
+:host /deep/ .chartContainerV /deep/ core-icon {
+	@include opacity(0.7);
+}
+
+:host /deep/ .chart {
 	width: 100%;
 	height: 100%;
 	background-color: $edtTimesBgColor;
 }
 
-edt-mecuncu * .edt-times-v {
-	background-color: $edtTimesBgColor;
-	display: none;
-	width: 90px;
-	@include respond-to(mobile){width: 200px};
-	@include respond-to(mobile){display: table-cell};
-}
-
-edt-mecuncu * .hide {
-	display: none;
-}
-
-edt-mecuncu * .edt-block-info {
+:host /deep/ .edt-block-info {
 	@include edt-block-info-font;
 }
