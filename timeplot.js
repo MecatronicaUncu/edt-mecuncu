@@ -86,7 +86,7 @@ var getminutes = function(t){
  */
 
 var timeplot = function(alltimes, config){
-
+	console.log(alltimes[0].times[0]);
 	lasttimes=JSON.parse(JSON.stringify(alltimes));
 	lastconfig=JSON.parse(JSON.stringify(config));
 

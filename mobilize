@@ -1,0 +1,1 @@
+vulcanize -o mobile/index.html --csp --inline --strip index.html

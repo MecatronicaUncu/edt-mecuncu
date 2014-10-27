@@ -10,13 +10,10 @@
 
 <link rel="import" href="scripts.html">
 
-<script src="timeplot.js"></script>
-
 <polymer-element name="edt-mecuncu" attributes="days types typeSelected subtypes subtypeSelected">
 	<template>
 	
 	<link rel="stylesheet" href="edt-mecuncu.css">
-	
 	<div id="edt">
 		<div horizontal layout center>
 				<div><img class="edt-logo" src="images/mecuncu.png" alt="Logo Asociacion"/></div>
@@ -24,180 +21,415 @@
 		</div>
 		<div>
 			<paper-shadow id="edt_shadow" z="2"></paper-shadow>
-			<core-toolbar id="searchBar" layout horizontal center center-justified>
-				<core-dropdown-menu id="selectType" label="Elija tipo" on-core-activate="{{typeClicked}}">
-					<template repeat="{{types}}">
-						<core-item icon="{{icon}}" label="{{type}}">
+			<core-toolbar id="searchBar" layout horizontal center>
+				<core-dropdown-menu id="selectType" label="" on-core-activate="{{typeClicked}}">
+					<template repeat="{{ types }}">
+						<core-item icon="{{ icon }}" label="{{ type }}"></core-item>
 					</template>
 				</core-dropdown-menu>
-				<core-dropdown-menu id="selectWhich" label="Elija {{typeSelected.label}}" on-core-activate="{{subTypeClicked}}" hidden>
+				<core-dropdown-menu id="selectWhich" label="" on-core-activate="{{subTypeClicked}}" hidden>
 					<template repeat="{{subtypes}}">
-						<core-item label="{{}}">
+						<core-item label="{{}}"></core-item>
 					</template>
 				</core-dropdown-menu>
-				<core-item id="which" icon="{{typeSelected.icon}}" label="{{subTypeSelected.label}}" hidden></core-item>
+				<core-icon id="edtselicon" icon="help"></core-icon><p id="edtsel">Elija Tipo</p>
 				<paper-button id="clearSearchBtn" on-click="{{clearSearch}}" hidden>
 					<core-icon icon="clear"></core-icon>
 				</paper-button>
 			</core-toolbar>
 			<table id="tabla">
 				<thead class="edt-head">
-					<th class="edt-head-wrap">Día</td>
+					<th class="edt-head-wrap">Dia</td>
 					<th class="edt-head-time-h" id="Hora">Hora</td>
 				</thead>			
 				<tbody>
-					<template repeat="{{ days }}">
+				<tr>
+					<td class="edt-days"><span id="Lunes" on-click="{{showTimesV}}">Lunes</span>
+					<core-collapse id="LunesCollapse">
+						<div class="chartContainerV" id="LunesV"></div>
+					</core-collapse></td>
+					<td class="edt-times-h">
+						<div class="chartContainer" id="LunesH"></div>
+					</td>
+				</tr>
+				<tr>
+					<td class="edt-days"><span id="Martes" on-click="{{showTimesV}}">Martes</span>
+					<core-collapse id="MartesCollapse">
+						<div class="chartContainerV" id="MartesV"></div>
+					</core-collapse></td>
+					<td class="edt-times-h">
+						<div class="chartContainer" id="MartesH"></div>
+					</td>
+				</tr>
+				<tr>
+					<td class="edt-days"><span id="Miercoles" on-click="{{showTimesV}}">Miercoles</span>
+					<core-collapse id="MiercolesCollapse">
+						<div class="chartContainerV" id="MiercolesV"></div>
+					</core-collapse></td>
+					<td class="edt-times-h">
+						<div class="chartContainer" id="MiercolesH"></div>
+					</td>
+				</tr>
+				<tr>
+					<td class="edt-days"><span id="Jueves" on-click="{{showTimesV}}">Jueves</span>
+					<core-collapse id="JuevesCollapse">
+						<div class="chartContainerV" id="JuevesV"></div>
+					</core-collapse></td>
+					<td class="edt-times-h">
+						<div class="chartContainer" id="JuevesH"></div>
+					</td>
+				</tr>
+				<tr>
+					<td class="edt-days"><span id="Viernes" on-click="{{showTimesV}}">Viernes</span>
+					<core-collapse id="ViernesCollapse">
+						<div class="chartContainerV" id="ViernesV"></div>
+					</core-collapse></td>
+					<td class="edt-times-h">
+						<div class="chartContainer" id="ViernesH"></div>
+					</td>
+				</tr>
+				<tr>
+					<td class="edt-days"><span id="Sabado" on-click="{{showTimesV}}">Sabado</span>
+					<core-collapse id="SabadoCollapse">
+						<div class="chartContainerV" id="SabadoV"></div>
+					</core-collapse></td>
+					<td class="edt-times-h">
+						<div class="chartContainer" id="SabadoH"></div>
+					</td>
+				</tr>
+				<!-- FUNCIONA EN PC PERO NO EN MOBILE -->
+					<!--template repeat="{{ day in days }}">
 						<tr>
-							<td class="edt-days"><span id="{{}}" on-click="{{showTimesV}}">{{}}</span>
-							<core-collapse id="{{}}Collapse">
-								<div class="chartContainerV" id="{{}}V"></div>
+							<td class="edt-days"><span id="{{day}}" on-click="{{showTimesV}}">{{day}}</span>
+							<core-collapse id="{{day}}Collapse">
+								<div class="chartContainerV" id="{{day}}V"></div>
 							</core-collapse></td>
 							<td class="edt-times-h">
-								<div class="chartContainer" id="{{}}H"></div>
+								<div class="chartContainer" id="{{day}}H"></div>
 							</td>
 						</tr>
-					</template>
+					</template-->
 				</tbody>
 				
 			</table>
 		</div>
-		<div><p class="edt-footer">Asociación de Mecatrónica de Mendoza</p></div>
+		<div><p class="edt-footer">Asociacion de Mecatronica de Mendoza</p></div>
 	</div>
 	</template>
 	<script>
 	
 		window.addEventListener('polymer-ready', function(e) {
-				document.getElementsByTagName('edt-mecuncu')[0].plot();		
+				//document.getElementsByTagName('edt-mecuncu')[0].
 		});
 		
 		Polymer({
 			ready: function(){
 				$(window).on('resize', function() {					
-					clearplot();
-					replot();
+					document.getElementsByTagName('edt-mecuncu')[0].clearplot();
+					document.getElementsByTagName('edt-mecuncu')[0].replot();
 				});
 				
-				this.days = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes'];
+				//Platform.flush();
 				
-				this.subtypes = ['Anibal Mirasso','Susana Bernasconi','Alfredo Puglesi'];
-				
-				this.types = [	{	type:'Profesor',
-									icon:'social:school'
-								},
-								{	type:'Estudiante',
-									icon:'social:person'
-								},
-								{	type:'Materia',
-									icon:'icons:folder'
-								}];
-								
-				this.config = {	types:	{
-								Clase: {
-									color:'#B1C3F9'
-								},
-								Plenaria: {
-									color:'#9EE874'
-								},
-								Curso: {
-									color: '#FFED70'
-								},
-								Examen: {
-									color: '#9F8186'
-								},
-								TP: {
-									color: '#FF8680'
-								}
+				this.timeplot(this.times,this.config);
+			},
+			//days:['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes'],
+			subtypes:['Anibal Mirasso','Susana Bernasconi','Alfredo Puglesi'],
+			types:[	{	type:'Profesor',
+							icon:'social:school'
+						},
+						{	type:'Estudiante',
+							icon:'social:person'
+						},
+						{	type:'Materia',
+							icon:'icons:folder'
+						}],
+			config:{	types:	{
+							Clase: {
+								color:'#B1C3F9'
 							},
-							limits:	{
-								start:'08h00',
-								end:'22h00'
+							Plenaria: {
+								color:'#9EE874'
+							},
+							Curso: {
+								color: '#FFED70'
+							},
+							Examen: {
+								color: '#9F8186'
+							},
+							TP: {
+								color: '#FF8680'
 							}
-						 };
-						
-			this.timesM = [	{	ti:'14h30',
-								tf:'16h48',
-								place:'Aula 10',
-								person:'Alvaro Alonso',
-								type:'Clase'
-							},
-							{	ti:'17h00',
-								tf:'18h00',
-								place:'Aula 1',
-								person:'Gino Copparoni',
-								type:'TP'
-							},
-							{	ti:'08h40',
-								tf:'09h50',
-								place:'Aula 16',
-								person:'Franco Ardiani',
-								type:'Plenaria'
-							},
-							{	ti:'18h30',
-								tf:'21h50',
-								place:'Asociación de Mecatrónica',
-								person:'Fernando Cladera',
-								type:'Curso'
-							},
-							{	ti:'11h00',
-								tf:'11h45',
-								place:'Aula 5',
-								person:'Maximiliano Badaloni',
-								type:'Examen'
-							}];
+						},
+						limits:	{
+							start:'08h00',
+							end:'22h00'
+						}
+			},						
+			times:[	{	day:'Jueves',
+						times: [	{	ti:'12h30',
+							tf:'13h48',
+							place:'Aula 6',
+							person:'Andrés Manelli',
+							type:'Curso'
+						},
+						{	ti:'08h10',
+							tf:'10h20',
+							place:'Anfiteatro Oeste',
+							person:'Aníbal Mirasso',
+							type:'Clase'
+						},
+						{	ti:'15h00',
+							tf:'16h30',
+							place:'Asociación de Mecatrónica',
+							person:'Fernando Cladera',
+							type:'Curso'
+						},
+						{	ti:'19h00',
+							tf:'20h00',
+							place:'Anfiteatro Este',
+							person:'Susana Bernasconi',
+							type:'Plenaria'
+						}]
+					},
+					{	day:'Lunes',
+						times: [	{	ti:'14h30',
+							tf:'16h48',
+							place:'Aula 10',
+							person:'Alvaro Alonso',
+							type:'Clase'
+						},
+						{	ti:'17h00',
+							tf:'18h00',
+							place:'Aula 1',
+							person:'Gino Copparoni',
+							type:'TP'
+						},
+						{	ti:'08h40',
+							tf:'09h50',
+							place:'Aula 16',
+							person:'Franco Ardiani',
+							type:'Plenaria'
+						},
+						{	ti:'18h30',
+							tf:'21h50',
+							place:'Asociación de Mecatrónica',
+							person:'Fernando Cladera',
+							type:'Curso'
+						},
+						{	ti:'11h00',
+							tf:'11h45',
+							place:'Aula 5',
+							person:'Maximiliano Badaloni',
+							type:'Examen'
+						}]
+					}],
+			divs:[],
+			divIndex:0,
+			lasttimes:{},
+			lastconfig:{},
+			suffix: 'H',
+			getOffset: function(el){
+				var _x = 0;
+				var _y = 0;
+				while( el && !isNaN( el.offsetLeft ) && !isNaN( el.offsetTop ) ) {
+					_x += el.offsetLeft - el.scrollLeft;
+					_y += el.offsetTop - el.scrollTop;
+					el = el.offsetParent;
+				}
+				return { top: _y, left: _x };
+			},
+			blockHTML: function(timejson,ti,tt,h,w,ttip){
+	
+				var pos,htip;
+				
+				if(this.suffix=='H'){
+					pos = 'right';
+					htip = h - 10;
+				} else {
+					pos = 'bottom';
+					htip = 50;
+				}
+				if((timejson.ti-ti) > (tt/2) ){
+					if(this.suffix=='H'){
+						pos = 'left';
+						htip = h - 10;
+					} else {
+						pos = 'top';
+						htip = 50;
+					}
+				}
+				w = Math.ceil(w);	
+				var info = ['<div style="padding-left: 3px; height: 100%">',
+							'<div style="height: 20%">'+timejson.type.substr(0,15)+'</div>',
+							'<div style="height: 40%">'+timejson.sti+' - '+timejson.stf+'</div>',
+							'<div style="height: 20%">'+timejson.person.split(' ')[0].substr(0,1)+'. '+timejson.person.split(' ')[1]+'</div>',
+							'<div style="height: 20%">'+timejson.place+'</div>',
+							'</div>'].join('\n');
 							
-			this.timesT = [	{	ti:'12h30',
-								tf:'13h48',
-								place:'Aula 6',
-								person:'Andrés Manelli',
-								type:'Curso'
-							},
-							{	ti:'08h10',
-								tf:'10h20',
-								place:'Anfiteatro Oeste',
-								person:'Aníbal Mirasso',
-								type:'Clase'
-							},
-							{	ti:'15h00',
-								tf:'16h30',
-								place:'Asociación de Mecatrónica',
-								person:'Fernando Cladera',
-								type:'Curso'
-							},
-							{	ti:'19h00',
-								tf:'20h00',
-								place:'Anfiteatro Este',
-								person:'Susana Bernasconi',
-								type:'Plenaria'
-							}];
-			
-			this.times =  [	{	day:'Martes',
-								times:this.timesT
-							},
-							{	day:'Lunes',
-								times:this.timesM
-							}];
-			},	
+				if(ttip){
+					return [	'<core-tooltip show="false"; position="'+pos+'">',
+								'<div style="height: '+h+'px; width: '+w+'px;"><core-icon icon="list"></core-icon></div>',
+								'<div tip style="height: '+htip+'px">'+info+'</div>',
+								'</core-tooltip>'].join('\n');
+				} else {
+					return info;
+				}
+			},
+			getminutes: function(t){
+				t = t.split('h');
+				t = parseInt(t[0])*60 + parseInt(t[1]);
+				return t;
+			},
+			timeplot: function(alltimes, config){
+				console.log(alltimes[0].times[0]);
+				this.lasttimes=JSON.parse(JSON.stringify(alltimes));
+				this.lastconfig=JSON.parse(JSON.stringify(config));
+
+				var divwidth;
+				var divheight;
+
+				if(this.$.edt.querySelector('.edt-times-h').length != 0){
+					if($(this.$.edt.querySelector('.edt-times-h')).css('display') == 'none'){
+						this.suffix = 'V';
+						divwidth = $(this.$.edt.querySelector('.edt-days')).width();
+						divheight = $(this.$.edt.querySelector('.chartContainerV')).height();
+					} else {
+						this.suffix = 'H';
+						divwidth = $(this.$.edt.querySelector('.chartContainer')).width();
+						divheight = $(this.$.edt.querySelector('.chartContainer')).height();
+					}
+				} else {
+					return console.log('Error edt times h');
+				}
+
+				console.log(divwidth+'  '+divheight);
+
+				/*	Transform times	*/	
+				var start = this.getminutes(config.limits.start);
+				var end = this.getminutes(config.limits.end);
+				var tt = end - start;
+
+				console.log(this.getminutes('08h50'));
+
+				alltimes.forEach(function(el){
+					var id = el.day+this.suffix;
+					console.log('ID: '+id);
+					var times = el.times;
+					/*	Transform times	*/
+					times.forEach(function(el){
+						el.sti = el.ti;
+						el.stf = el.tf;
+						el.ti = this.getminutes(el.ti);
+						el.tf = this.getminutes(el.tf);
+					},this);
+					
+					times.sort(function(a, b){
+						return a.ti - b.ti;
+						});
+					
+					if(this.suffix=='H'){	
+						times.forEach(function(el){
+							var x = ((el.ti-start)/tt)*divwidth;
+							var w = ((el.tf - el.ti)/tt)*divwidth;
+							this.divs[this.divIndex] = document.createElement('div');
+							this.divs[this.divIndex].id = 'ttip-'+id+this.divIndex;
+							$(this.divs[this.divIndex]).css('position','absolute');
+							$(this.divs[this.divIndex]).css('left', x);
+							$(this.divs[this.divIndex]).css('top', $('#'+id).offset().top);
+							$(this.divs[this.divIndex]).css('width', w);
+							$(this.divs[this.divIndex]).css('height',divheight);
+							$(this.divs[this.divIndex]).css('background-color', config.types[el.type].color);
+							if(w >= 85){
+								$(this.divs[this.divIndex]).append(this.blockHTML(el,start,tt,divheight,w,false));
+								this.divs[this.divIndex].className += ' edt-block-info';
+							} else {
+								$(this.divs[this.divIndex]).append(this.blockHTML(el,start,tt,divheight,w,true));
+							}
+							$(this.divs[this.divIndex]).click({id: this.divs[this.divIndex].id, ctx:this},this.togglettip);			
+							document.getElementById(id).appendChild(this.divs[this.divIndex]);
+							this.divIndex++;
+							//TODO: new row if superposition found
+						},this);
+					} else {
+						console.log('VERTICAL');
+						var top = 0;
+						var hcum = 0;
+						times.forEach(function(el){
+							var y = ((el.ti-start)/tt)*divheight;
+							var h = ((el.tf - el.ti)/tt)*divheight;
+							top = y-hcum;
+							console.log('y '+y+' h '+h);
+							this.divs[this.divIndex] = document.createElement('div');
+							this.divs[this.divIndex].id = 'ttip-'+id+this.divIndex;
+							$(this.divs[this.divIndex]).css('position','relative');
+							$(this.divs[this.divIndex]).css('top', top+'px');
+							$(this.divs[this.divIndex]).css('width', '100%');
+							$(this.divs[this.divIndex]).css('height',h+'px');
+							$(this.divs[this.divIndex]).css('background-color', config.types[el.type].color);
+							if(h >= 70){
+								$(this.divs[this.divIndex]).append(this.blockHTML(el,start,tt,h,divwidth,false));
+								this.divs[this.divIndex].className += ' edt-block-info';
+							} else {
+								$(this.divs[this.divIndex]).append(this.blockHTML(el,start,tt,h,divwidth,true));
+							}	
+							$(this.divs[this.divIndex]).click({id: this.divs[this.divIndex].id, ctx:this},this.togglettip);	
+							document.getElementById(id).appendChild(this.divs[this.divIndex]);
+							this.divIndex++;
+							hcum+=h;
+							//TODO: new row if superposition found
+						},this);
+					}
+				},this);
+			},
+			clearplot: function(){
+				
+				this.divs.forEach(function(el){
+					$(this.$.edt.querySelector('#'+el.id)).remove();
+				},this);
+				
+				this.divs=[];
+				divIndex=0;
+
+			},
+			replot: function(){
+	
+				this.timeplot(this.lasttimes, this.lastconfig);
+			},
+			togglettip: function(data){
+				var div = $(data.data.ctx.$.edt.querySelector('#'+data.data.id+' > core-tooltip'));
+				if(div.prop('show') == true){
+					div.prop('show',false);
+				} else {
+					div.prop('show',true);
+				}
+			},
 			showTimesV: function(event, detail, sender) {
 				this.$.edt.querySelector('#'+sender.id+'Collapse').toggle();
 			},
-			plot: function(){
-				timeplot(this.times,this.config);
-			},
 			typeClicked: function(event, detail, sender){
+				this.days=['Lunes'];
 				this.typeSelected=detail.item;
+				$(this.$.edtselicon).prop('icon',this.typeSelected.icon);
+				$(this.$.edtsel).text('Elija '+this.typeSelected.label);
 				$(this.$.selectType).prop('hidden',true);
 				$(this.$.selectWhich).prop('hidden',false);
 				$(this.$.clearSearchBtn).prop('hidden',false);
 			},
 			clearSearch: function(event, detail, sender){
-				$(this.$.selectType).prop('hidden',false);
-				$(this.$.which).prop('hidden',true);
+				$(this.$.selectWhich).prop('label','');
 				$(this.$.selectWhich).prop('hidden',true);
 				$(this.$.clearSearchBtn).prop('hidden',true);
+				$(this.$.edtsel).text('Elija Tipo');
+				$(this.$.edtselicon).prop('icon','help');
+				$(this.$.selectType).prop('selectedItem',null);
+				$(this.$.selectWhich).prop('selectedItem',null);
+				$(this.$.selectType).prop('label','');
+				$(this.$.selectType).prop('hidden',false);
 			},
 			subTypeClicked: function(event, detail, sender){
 				this.subTypeSelected=detail.item;
-				$(this.$.which).prop('hidden',false);
+				$(this.$.edtsel).text(this.subTypeSelected.label);
 				$(this.$.selectWhich).prop('hidden',true);
 			}
 		});

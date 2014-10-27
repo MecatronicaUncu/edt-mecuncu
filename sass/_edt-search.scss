@@ -7,10 +7,23 @@
 }
 
 :host /deep/ #searchBar /deep/ core-dropdown-menu::shadow #control {
-	margin: 0;
+	margin: 0px 0px;
+	width: 30px;
     background-color: $edtSearchBarBgColor;
     height: ($edtSearchBarHeight - 10)+px;
 }
+
+/** TAL VEZ HAYA QUE SACAR ESTO MAS ADELANTE	*/
+
+:host /deep/ #searchBar /deep/ core-dropdown-menu::shadow #control > core-icon {
+	margin: 0px 0px;
+}
+
+:host /deep/ #searchBar /deep/ core-dropdown-menu::shadow #control > core-item {
+	margin: 0px 0px;
+}
+
+/****************************************************/
 
 :host /deep/ #searchBar /deep/ core-dropdown-menu::shadow #dropdown {
     background-color: tint($edtLightColor,50);
@@ -33,8 +46,12 @@
 	@include edt-search-bar-font;
 }
 
-:host /deep/ #which::shadow #label,
-:host /deep/ #which::shadow #icon, {
-	@include user-select(none);
-	color: shade(white,20);
+:host /deep/ #edtsel {
+	@include edt-search-bar-font;
+	@include respond-to(mobile){font-size: (12 / 16)+em};
+}
+
+:host /deep/ #edtselicon {
+	color: black;
+	@include opacity(0.65);
 }

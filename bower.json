@@ -1,21 +1,19 @@
 {
   "name": "edt-mecuncu",
   "version": "0.1.0",
-  "authors": [
-    "Andres Manelli <andresmanelli@gmail.com>"
-  ],
   "description": "Day Use Calendar",
   "keywords": [
     "calendar",
     "edt"
   ],
   "main": "edt-mecuncu.html",
-  "homepage": "https://github.com/MecatronicaUncu/EDT-Mecuncu",
+  "homepage": "https://github.com/MecatronicaUncu/edt-mecuncu",
   "ignore": [
     "/.*",
     "/tests/",
     "/sass/",
-    "config.rb"
+    "config.rb",
+    "mobilize"
   ],
   "dependencies": {
     "polymer": "Polymer/polymer#^0.4.2",
