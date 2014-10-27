@@ -26,7 +26,20 @@ Instalación (de desarrollo)
   - ```cd edt-mecuncu```
   - ```bower install```
   - ```cd ../ && python -m SimpleHTTPServer```
- - Entran en la pagina [web](0.0.0.0:8000/edt-mecuncu/)
+ - Entran en la pagina [web](http://0.0.0.0:8000/edt-mecuncu/index.html)
+
+Para poder vulcanizar para celulares
+======================
+
+(Vulcanizar es contraer todos los htmls y js lo más posible para cargar todo el sitio en unas pocas requests html)
+
+ - Instalar [NodeJS](http://nodejs.org/dist/v0.10.32/node-v0.10.32.tar.gz)
+  - Instrucciones en el archivo.
+ - ```npm install -g vulcanize```
+ - Desde la carpeta donde hiciceron el ```git clone```:
+  - ./mobilize
+ - ```cd ../ && python -m SimpleHTTPServer```
+ - Entran en la pagina [web](http://0.0.0.0:8000/edt-mecuncu/mobile/index.html)
 
 Modificaciones a los archivos de Sass (/sass/)
 ================
@@ -85,6 +98,21 @@ A la función _timeplot_ se le pasa el [JSON](http://json.org/) de horarios más
 De esta manera los colores responden a esos tipos de actividad, que hay que respetar en el [JSON](http://json.org/) de horarios (pero definidos por uno mismo!).
 La franja horaria también es personalizable cambiando esos valores de _limits_. Todavía no hay mucho checkeo de errores por el tema de superposición (Agregar fila?) 
 o de que un horario es superior o inferior a los límites.
+
+Para el menú desplegable para selección de alumno/profesor/materia, por ahora se guardan en la variable ```types``` y ```subtypes```:
+
+```javascript
+		subtypes:['Franco Ardiani','Alvaro Alonso','Maxi Badaloni', 'Fer Cladera'],
+		types:[	{	type:'Profesor',
+				icon:'social:school'
+			},
+			{	type:'Estudiante',
+				icon:'social:person'
+			},
+			{	type:'Materia',
+				icon:'icons:folder'
+			}],
+```
 
 Detalles
 ===========
