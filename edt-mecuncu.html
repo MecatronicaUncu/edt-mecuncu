@@ -7,10 +7,11 @@
 <link rel="import" href="../paper-button/paper-button.html">
 <link rel="import" href="../core-icons/social-icons.html">
 <link rel="import" href="../core-dropdown-menu/core-dropdown-menu.html">
+<link rel="import" href="../edt-mecuncu-taskbar/edt-mecuncu-taskbar.html">
 
 <link rel="import" href="scripts.html">
 
-<polymer-element name="edt-mecuncu" attributes="days types typeSelected subtypes subtypeSelected">
+<polymer-element name="edt-mecuncu" attributes="days types typeSelected subtypes subtypeSelected times">
 	<template>
 	
 	<link rel="stylesheet" href="edt-mecuncu.css">
@@ -19,6 +20,7 @@
 				<div><img class="edt-logo" src="images/mecuncu.png" alt="Logo Asociacion"/></div>
 				<div class="edt-caption" flex>EDT - MecUncu</div>
 		</div>
+		<edt-mecuncu-taskbar id="taskbar"></edt-mecuncu-taskbar>
 		<div>
 			<paper-shadow id="edt_shadow" z="2"></paper-shadow>
 			<core-toolbar id="searchBar" layout horizontal center>
@@ -39,7 +41,7 @@
 			</core-toolbar>
 			<table id="tabla">
 				<thead class="edt-head">
-					<th class="edt-head-wrap">Dia</td>
+					<th class="edt-head-wrap">Día</td>
 					<th class="edt-head-time-h" id="Hora">Hora</td>
 				</thead>			
 				<tbody>
@@ -62,7 +64,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="edt-days"><span id="Miercoles" on-click="{{showTimesV}}">Miercoles</span>
+					<td class="edt-days"><span id="Miercoles" on-click="{{showTimesV}}">Miércoles</span>
 					<core-collapse id="MiercolesCollapse">
 						<div class="chartContainerV" id="MiercolesV"></div>
 					</core-collapse></td>
@@ -89,7 +91,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="edt-days"><span id="Sabado" on-click="{{showTimesV}}">Sabado</span>
+					<td class="edt-days"><span id="Sabado" on-click="{{showTimesV}}">Sábado</span>
 					<core-collapse id="SabadoCollapse">
 						<div class="chartContainerV" id="SabadoV"></div>
 					</core-collapse></td>
@@ -113,25 +115,25 @@
 				
 			</table>
 		</div>
-		<div><p class="edt-footer">Asociacion de Mecatronica de Mendoza</p></div>
+		<div><p class="edt-footer">Asociación de Mecatrónica de Mendoza</p></div>
 	</div>
 	</template>
 	<script>
 	
 		window.addEventListener('polymer-ready', function(e) {
-				//document.getElementsByTagName('edt-mecuncu')[0].
+				
 		});
 		
 		Polymer({
 			ready: function(){
-				$(window).on('resize', function() {					
-					document.getElementsByTagName('edt-mecuncu')[0].clearplot();
-					document.getElementsByTagName('edt-mecuncu')[0].replot();
+				$(window).on('resize', {ctx: this}, function(event) {					
+					//event.data.ctx.clearplot();
+					//event.data.ctx.replot();
 				});
 				
-				//Platform.flush();
-				
 				this.timeplot(this.times,this.config);
+				
+				this.$.taskbar.getTypes();
 			},
 			//days:['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes'],
 			subtypes:['Franco Ardiani','Alvaro Alonso','Maxi Badaloni', 'Fer Cladera'],
@@ -240,7 +242,7 @@
 				return { top: _y, left: _x };
 			},
 			blockHTML: function(timejson,ti,tt,h,w,ttip){
-	
+
 				var pos,htip;
 				
 				if(this.suffix=='H'){
@@ -276,10 +278,30 @@
 					return info;
 				}
 			},
-			getminutes: function(t){
+			getminutes:  function(t){
 				t = t.split('h');
 				t = parseInt(t[0])*60 + parseInt(t[1]);
 				return t;
+			},
+			clearplot: function(){
+		
+				this.divs.forEach(function(el){
+					$(this.$.edt.querySelector('#'+el.id)).remove();
+				},this);
+				
+				ctx.divs=[];
+				divIndex=0;
+			},
+			replot: function(){
+				timeplot(this.lasttimes, this.lastconfig);
+			},
+			togglettip: function(data){
+				var div = $(data.data.ctx.$.edt.querySelector('#'+data.data.id+' > core-tooltip'));
+				if(div.prop('show') == true){
+					div.prop('show',false);
+				} else {
+					div.prop('show',true);
+				}
 			},
 			timeplot: function(alltimes, config){
 				console.log(alltimes[0].times[0]);
@@ -289,34 +311,28 @@
 				var divwidth;
 				var divheight;
 
-				if(this.$.edt.querySelector('.edt-times-h').length != 0){
-					if($(this.$.edt.querySelector('.edt-times-h')).css('display') == 'none'){
-						this.suffix = 'V';
-						divwidth = $(this.$.edt.querySelector('.edt-days')).width();
-						divheight = $(this.$.edt.querySelector('.chartContainerV')).height();
-					} else {
-						this.suffix = 'H';
-						divwidth = $(this.$.edt.querySelector('.chartContainer')).width();
-						divheight = $(this.$.edt.querySelector('.chartContainer')).height();
-					}
+				if($(this.$.edt.querySelector('.edt-times-h')).css('display') == 'none'){
+					this.suffix = 'V';
+					divwidth = $(this.$.edt.querySelector('.edt-days')).width();
+					divheight = $(this.$.edt.querySelector('.chartContainerV')).height();
 				} else {
-					return console.log('Error edt times h');
+					this.suffix = 'H';
+					divwidth = $(this.$.edt.querySelector('.chartContainer')).width();
+					divheight = $(this.$.edt.querySelector('.chartContainer')).height();
 				}
 
 				console.log(divwidth+'  '+divheight);
 
-				/*	Transform times	*/	
+				//	Transform times
 				var start = this.getminutes(config.limits.start);
 				var end = this.getminutes(config.limits.end);
 				var tt = end - start;
-
-				console.log(this.getminutes('08h50'));
 
 				alltimes.forEach(function(el){
 					var id = el.day+this.suffix;
 					console.log('ID: '+id);
 					var times = el.times;
-					/*	Transform times	*/
+					//	Transform times
 					times.forEach(function(el){
 						el.sti = el.ti;
 						el.stf = el.tf;
@@ -381,28 +397,6 @@
 						},this);
 					}
 				},this);
-			},
-			clearplot: function(){
-				
-				this.divs.forEach(function(el){
-					$(this.$.edt.querySelector('#'+el.id)).remove();
-				},this);
-				
-				this.divs=[];
-				divIndex=0;
-
-			},
-			replot: function(){
-	
-				this.timeplot(this.lasttimes, this.lastconfig);
-			},
-			togglettip: function(data){
-				var div = $(data.data.ctx.$.edt.querySelector('#'+data.data.id+' > core-tooltip'));
-				if(div.prop('show') == true){
-					div.prop('show',false);
-				} else {
-					div.prop('show',true);
-				}
 			},
 			showTimesV: function(event, detail, sender) {
 				this.$.edt.querySelector('#'+sender.id+'Collapse').toggle();
