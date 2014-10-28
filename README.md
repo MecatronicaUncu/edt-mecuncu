@@ -38,7 +38,7 @@ Para poder vulcanizar para celulares
  - ```npm install -g vulcanize```
  - Desde la carpeta donde hiciceron el ```git clone```:
   - ./mobilize
- - ```cd ../ && python -m SimpleHTTPServer```
+ - ```cd ../ && python -m SimpleHTTPServer``` para versiones de python 2.x, ```cd ../ && python -m http.server``` para versiones de python 3.x
  - Entran en la pagina [web](http://0.0.0.0:8000/edt-mecuncu/mobile/index.html)
 
 Modificaciones a los archivos de Sass (/sass/)
